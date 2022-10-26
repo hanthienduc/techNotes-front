@@ -2,7 +2,11 @@ import { createSelector, createEntityAdapter } from '@reduxjs/toolkit'
 
 import { apiSlice } from '../../app/api/apiSlice'
 
-const notesAdapter = createEntityAdapter({})
+const notesAdapter = createEntityAdapter({
+    sortComparer: (a, b) =>
+        a.completed === b.completed ? 0 : a.completed ? 1 : -1,
+})
+
 const initialState = notesAdapter.getInitialState()
 
 export const notesApiSlice = apiSlice.injectEndpoints({
@@ -32,7 +36,7 @@ export const notesApiSlice = apiSlice.injectEndpoints({
     }),
 })
 
-export const { userGetnotesQuery } = notesApiSlice
+export const { useGetNotesQuery } = notesApiSlice
 
 // returns the query result object
 export const selectUserResult = notesApiSlice.endpoints.getnotes.select()
@@ -46,7 +50,7 @@ const selectNotesData = createSelector(
 // getSelectors creates these selectors and we rename them with aliases using destructing
 export const {
     selectAll: selectAllnotes,
-    selectById: selectUserById,
-    selectIds: selectUserIds,
+    selectById: selectNoteById,
+    selectIds: selectNoteIds,
     // Pass in a selector that returns the notes slice of state
 } = notesAdapter.getSelectors((state) => selectNotesData(state) ?? initialState)
