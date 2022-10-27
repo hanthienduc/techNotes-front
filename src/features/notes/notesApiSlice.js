@@ -33,10 +33,45 @@ export const notesApiSlice = apiSlice.injectEndpoints({
                 } else return [{ type: 'User', id: 'LIST' }]
             },
         }),
+        addNewNote: builder.mutation({
+            query: (initialNote) => ({
+                url: '/notes',
+                method: 'POST',
+                body: {
+                    ...initialNote,
+                },
+            }),
+            invalidatesTags: [{ type: 'Note', id: 'LIST' }],
+        }),
+        updateNote: builder.mutation({
+            query: (initialNote) => ({
+                url: '/notes',
+                method: 'PATCH',
+                body: [...initialNote],
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'Note', id: arg.id },
+            ],
+        }),
+        deleteNote: builder.mutation({
+            query: ({ id }) => ({
+                url: `/notes`,
+                method: 'DELETE',
+                body: { id },
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'Note', id: arg.id },
+            ],
+        }),
     }),
 })
 
-export const { useGetNotesQuery } = notesApiSlice
+export const {
+    useGetNotesQuery,
+    useAddNewNoteMutation,
+    useUpdateNoteMutation,
+    useDeleteNoteMutation,
+} = notesApiSlice
 
 // returns the query result object
 export const selectUserResult = notesApiSlice.endpoints.getnotes.select()
