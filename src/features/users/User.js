@@ -3,7 +3,7 @@ import { faPen, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 
 import { useSelector } from 'react-redux'
-import { selectUserById } from './userApiSlice'
+import { selectUserById } from './usersApiSlice'
 
 import React from 'react'
 

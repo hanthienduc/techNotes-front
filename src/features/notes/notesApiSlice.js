@@ -16,7 +16,6 @@ export const notesApiSlice = apiSlice.injectEndpoints({
             validateStatus: (response, result) => {
                 return response.status === 200 && !result.isError
             },
-            keepUnusedDataFor: 5,
             transformResponse: (responseData) => {
                 const loadedNotes = responseData.map((user) => {
                     user.id = user._id
@@ -74,7 +73,7 @@ export const {
 } = notesApiSlice
 
 // returns the query result object
-export const selectUserResult = notesApiSlice.endpoints.getnotes.select()
+export const selectUserResult = notesApiSlice.endpoints.getNotes.select()
 
 // creates memoized selector
 const selectNotesData = createSelector(
