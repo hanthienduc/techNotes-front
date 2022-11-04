@@ -8,19 +8,16 @@ import React from 'react'
 
 function Prefetch() {
     useEffect(() => {
-        console.log('subscribing')
-        const notes = store.dispatch(
-            notesApiSlice.endpoints.getNotes.initiate()
+        store.dispatch(
+            notesApiSlice.util.prefetch('getNotes', 'notesList', {
+                force: true,
+            })
         )
-        const users = store.dispatch(
-            usersApiSlice.endpoints.getUsers.initiate()
+        store.dispatch(
+            usersApiSlice.util.prefetch('getUsers', 'usersList', {
+                force: true,
+            })
         )
-
-        return () => {
-            console.log('unsubscribing')
-            notes.unsubscribe()
-            users.unsubscribe()
-        }
     }, [])
 
     return <Outlet />
